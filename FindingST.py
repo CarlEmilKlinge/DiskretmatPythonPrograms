@@ -1,4 +1,25 @@
 import math
+
+def FindCommonPrimeFactor(a, m):
+    Primes = FindPrimesBelow(min(a,m))
+    for i in Primes:
+        if(a%i==0 and m%i==0):
+            return(i)
+        
+
+def FindPrimesBelow(number):
+    Primtal = [2]
+    for i in range(3, number, 2):
+        isPrimtal = True
+        for j in Primtal:
+            if i%j==0:
+                isPrimtal = False
+                break
+        if isPrimtal:
+            Primtal.append(i)
+    return Primtal
+    
+
 while(True):
     # a is congruent to 1 mod m    a \equiv 1 \text{ mod } m
     try:
@@ -32,5 +53,9 @@ while(True):
         break
     if not AnswerFound:
         print("No answer")
+        print(f"The common primefactor is: {FindCommonPrimeFactor(a,m)}")
     print()
+
+
+
     
