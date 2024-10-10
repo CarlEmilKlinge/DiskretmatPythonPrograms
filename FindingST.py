@@ -29,6 +29,7 @@ while(True):
         print("sa+tm=1")
         print(f"({s}*{a})+({t}*{m})=1")
         AnswerFound = True
+        break
     if not AnswerFound:
         print("No answer")
     print()
