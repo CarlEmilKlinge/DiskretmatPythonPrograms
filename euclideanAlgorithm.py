@@ -5,7 +5,7 @@ def addPadding(word, length):
     padding = length-len(word)
     return " " * math.floor(padding/2) + word + " " * math.ceil(padding/2)
 
-Extended = False
+Extended = True
 PrintInPython = True
 PrintForLaTeX = True
 
