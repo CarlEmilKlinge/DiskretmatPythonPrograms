@@ -1,14 +1,10 @@
 # Setup
 import math
 import printLibrary as PL
-    #euclideanAlgorithm(Extended, PrintInPython, PrintForLaTeX, FirstNumber, SecondNumber)
 
 
 ### ADVARSEL. Har ikke tjekket med edgecases, tror ikke det virker helt korrekt med negative tal.
 
-Extended = False
-PrintInPython = True
-PrintForLaTeX = True
 
 
 def main(Extended = True, PrintInPython = True, PrintForLaTeX = True, FirstNumber = 0, SecondNumber = 0):
@@ -70,7 +66,7 @@ def main(Extended = True, PrintInPython = True, PrintForLaTeX = True, FirstNumbe
         PL.printTableInPython(VarNamesForPython, Variables)
 
     if PrintForLaTeX:
-        PL.printTableInLaTeX(Variables, VarNamesForLaTeX)
+        PL.printTableInLaTeX(VarNamesForLaTeX, Variables)
 
     
 # Start på program

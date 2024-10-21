@@ -32,7 +32,7 @@ while(True):
 
     mIsNegative = m<0
 
-    for i in range(abs(m)-1):
+    for i in range(abs(m)):
         if mIsNegative:
             if a*i%m != 1+m:
                 continue

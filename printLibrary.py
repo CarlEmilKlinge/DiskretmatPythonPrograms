@@ -43,7 +43,7 @@ def _wrapText(text, wrapList):
     return f"{startWrap}{text}{endWrap}"
 
 
-def printTableInLaTeX(Variables, VarNames):
+def printTableInLaTeX(VarNames, Variables):
     print()
     print("\\begin{tabular}{|" + "c|"*len(Variables) + "}")
     print("\\hline")
@@ -58,10 +58,10 @@ def printTableInLaTeX(Variables, VarNames):
     print(firstline)
     print("\\hline")
 
-    for index in Variables[0]:
+    for index in range(len(Variables[0])):
         MainLine = "    "
         for var in Variables:
-            MainLine += f"{var[index]} "
+            MainLine += f"${var[index]}$ "
             if var != Variables[-1]:
                 MainLine += "& "
         MainLine += "\\\\"
