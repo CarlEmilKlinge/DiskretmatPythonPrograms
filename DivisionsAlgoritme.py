@@ -1,5 +1,5 @@
 import BasicFunctions as BF
-
+import math
 
 # ADVARSEL. Pls vær sød mod programmet, den fejler hvis man ikke skriver det op på specifik måde, det virker også kun med heltal.
 # Generelt er det ikke specielt robust. Så tag svaret den giver med en gran salt. 
@@ -22,6 +22,7 @@ def divisions_algoritme(dividend, divisor):
 
         current_divider = [coeffiecient, variable, power]
         result.append(current_divider)
+
 
         current_subtractor = []
 
@@ -94,10 +95,58 @@ def divisions_algoritme(dividend, divisor):
         print(f"{BF.convert_to_readable_function(remainder, True)} \\\\")
     print("\\end{align*}")
 
+    print()
+    print()
 
-input_dividend = input("Input dividend:\n")
-input_divisor = input("Input: divisor:\n")
+    # Advanced LaTeX
 
+    align_at_length = math.floor(len(dividend)*3/2)+1
+    print(f"\\begin{{alignat*}}{{{align_at_length}}}")
+    first_line = f"\\ldiv{{{BF.convert_to_readable_function(divisor, True)}}}"
+    first_line += "{"
+
+    numbers = "0123456789"
+    first_part_here = True
+    for part in dividend:
+        readable_part = BF.convert_to_readable_function([part], first_part=first_part_here)
+        first_part_here = False
+        and_signs_printed = 0
+
+        if readable_part.find("+") != -1:
+            readable_part = BF.insert_into_string(readable_part, "&", readable_part.find("+"))
+            and_signs_printed += 1
+        elif readable_part.find("-") != -1:
+            readable_part = BF.insert_into_string(readable_part, "&", readable_part.find("-"))
+            and_signs_printed += 1
+        
+        for char, i in zip(readable_part, range(len(readable_part))):
+            if part[1] == "":
+                if char in numbers:
+                    readable_part = BF.insert_into_string(readable_part, "&&", i)
+                    and_signs_printed += 2
+                    break
+            else:
+                if char == part[1] and part[1] != "":
+                    break
+                if char in numbers:
+                    readable_part = BF.insert_into_string(readable_part, "&"*(2-and_signs_printed), i)
+                    and_signs_printed = 2
+                    break
+
+        
+        if part[1] != "":
+            readable_part = BF.insert_into_string(readable_part, "&"*(3-and_signs_printed), readable_part.find(part[1]))
+
+
+        first_line+=f"{readable_part} "
+    first_line += "&}"
+    first_line += f"{{{BF.convert_to_readable_function(result, True)}}} \\\\"
+    print(first_line)
+
+# input_dividend = input("Input dividend:\n")
+# input_divisor = input("Input: divisor:\n")
+input_dividend = "Z^5-3Z^4+Z^3+4"
+input_divisor = "Z^2-3Z+2"
 
 input_dividend = BF.convert_to_function(input_dividend)
 input_divisor = BF.convert_to_function(input_divisor)

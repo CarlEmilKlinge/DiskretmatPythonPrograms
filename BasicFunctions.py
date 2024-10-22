@@ -21,12 +21,12 @@ def convert_to_function(func):
         current_split = [1, "", 1]
         if "^" in part:
             up_location = part.find("^")
-            current_split[2] = try_parse_int_or_float(part[up_location+1:])
+            current_split[2] = try_parse_int(part[up_location+1:])
 
             
             current_split[1] = part[up_location-1]
 
-            coeffiecient = try_parse_int_or_float(part[:up_location-1])
+            coeffiecient = try_parse_int(part[:up_location-1])
             if coeffiecient == None:
                 current_split[0] = 1
             else:
@@ -34,11 +34,11 @@ def convert_to_function(func):
             super_split_function.append(current_split)
             continue
 
-        number = try_parse_int_or_float(part)
+        number = try_parse_int(part)
 
         if number == None:
             current_split[1] = part[-1]
-            coeffiecient = try_parse_int_or_float(part[:-1])
+            coeffiecient = try_parse_int(part[:-1])
             if coeffiecient == None:
                 current_split[0] = 1
             else:
@@ -52,21 +52,19 @@ def convert_to_function(func):
 
     return super_split_function
 
-def convert_to_readable_function(func, LaTeX = False):
+def convert_to_readable_function(func, LaTeX = False, first_part = True):
     readable_function = ""
-    first_part = True
     for part in func:
         coefficient = part[0]
         variable = part[1]
         power = part[2]
 
 
-
-        coefficient_int = try_parse_int_or_float(coefficient)
+        coefficient_int = try_parse_int(coefficient)
         if coefficient_int != None:
             coefficient = coefficient_int
         
-        power_int = try_parse_int_or_float(power)
+        power_int = try_parse_int(power)
         if power_int != None:
             power = power_int
 
@@ -77,8 +75,11 @@ def convert_to_readable_function(func, LaTeX = False):
         if variable == "":
             readable_function += str(coefficient)
             continue
-        if coefficient != 1:
+        if coefficient == -1:
+            readable_function += "-"
+        elif coefficient != 1:
             readable_function += str(coefficient)
+        
         readable_function += variable
         if power >= 2:
             if LaTeX:
@@ -96,6 +97,9 @@ def try_parse_int(input):
     
 def try_parse_int_or_float(input):
     output = try_parse_int(input)
+    if input != output:
+        output = input
+    
     if output == None:
         try:
             return float(input)
