@@ -67,7 +67,7 @@ def main(Extended = True, PrintInPython = True, PrintForLaTeX = True, FirstNumbe
         PL.printTableInPython(VarNamesForPython, Variables)
 
     if PrintForLaTeX:
-        PL.printTableInLaTeX(Variables, VarNamesForLaTeX)
+        PL.printTableInLaTeX(VarNamesForLaTeX, Variables)
 
     
 # Start på program
