@@ -1,12 +1,11 @@
 # Setup
 import math
 import printLibrary as PL
-    #euclideanAlgorithm(Extended, PrintInPython, PrintForLaTeX, FirstNumber, SecondNumber)
 
 
 ### ADVARSEL. Har ikke tjekket med edgecases, tror ikke det virker helt korrekt med negative tal.
 
-# Kig i bunden for at ændre settings eller whatever
+# Kig i bunden for at ændre settings eller inputmetode eller andet
 
 
 def main(Extended = True, PrintInPython = True, PrintForLaTeX = True, FirstNumber = 0, SecondNumber = 0):
@@ -73,7 +72,11 @@ def main(Extended = True, PrintInPython = True, PrintForLaTeX = True, FirstNumbe
     
 # Start på program
 
-num1 = int(input("First number: "))
-num2 = int(input("Second number: "))
+print()
+print("Advarsel: Virker ikke ordentligt med negative tal")
+print()
+while True:
+    num1 = int(input("First number: "))
+    num2 = int(input("Second number: "))
 
-main(FirstNumber=num1, SecondNumber=num2)
+    main(FirstNumber=num1, SecondNumber=num2, PrintForLaTeX=False)
