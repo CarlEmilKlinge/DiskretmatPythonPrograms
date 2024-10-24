@@ -28,7 +28,10 @@ def convert_to_function(func):
 
             coeffiecient = try_parse_int(part[:up_location-1])
             if coeffiecient == None:
-                current_split[0] = 1
+                if part[:up_location-1] == "-":
+                    current_split[0] = -1
+                else:
+                    current_split[0] = 1
             else:
                 current_split[0] = coeffiecient
             super_split_function.append(current_split)
