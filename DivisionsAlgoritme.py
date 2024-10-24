@@ -100,14 +100,41 @@ def divisions_algoritme(dividend, divisor):
 
     # Advanced LaTeX
 
-    align_at_length = math.floor(len(dividend)*3/2)+1
+    align_at_length = 100
     print(f"\\begin{{alignat*}}{{{align_at_length}}}")
     first_line = f"\\ldiv{{{BF.convert_to_readable_function(divisor, True)}}}"
     first_line += "{"
 
+    higest_power = dividend[0][2]
+
+    first_line += add_and_signs(dividend, higest_power)
+
+    first_line += "&}"
+    first_line += f"{{{BF.convert_to_readable_function(result, True)}}} \\\\"
+    print(first_line)
+
+    end_of_cmid = (higest_power+1)*3+1
+    for subtractor, remainder in zip(list_of_subtractors, list_of_remainders):
+        print(f"{add_and_signs(subtractor, higest_power)} \\\\")
+        start_of_cmid = end_of_cmid-1 - subtractor[0][2]*3
+        print(f"\\cmidrule{{{start_of_cmid}-{end_of_cmid}}}")
+        print(f"{add_and_signs(remainder, higest_power)} \\\\")
+    print("\\end{alignat*}")
+
+
+def add_and_signs(function, higest_power):
+    new_function = ""
     numbers = "0123456789"
     first_part_here = True
-    for part in dividend:
+    power_i = higest_power
+
+    for part in function:
+        while part[2] != power_i and power_i >= 0:
+            new_function += "&&& "
+            power_i-=1
+            
+
+        power_i-=1
         readable_part = BF.convert_to_readable_function([part], first_part=first_part_here)
         first_part_here = False
         and_signs_printed = 0
@@ -138,15 +165,12 @@ def divisions_algoritme(dividend, divisor):
             readable_part = BF.insert_into_string(readable_part, "&"*(3-and_signs_printed), readable_part.find(part[1]))
 
 
-        first_line+=f"{readable_part} "
-    first_line += "&}"
-    first_line += f"{{{BF.convert_to_readable_function(result, True)}}} \\\\"
-    print(first_line)
-
-# input_dividend = input("Input dividend:\n")
-# input_divisor = input("Input: divisor:\n")
-input_dividend = "Z^5-3Z^4+Z^3+4"
-input_divisor = "Z^2-3Z+2"
+        new_function+=f"{readable_part} "
+    return new_function
+input_dividend = input("Input dividend:\n")
+input_divisor = input("Input: divisor:\n")
+# input_dividend = "Z^5-3Z^4+Z^3+4"
+# input_divisor = "Z^2-3Z+2"
 
 input_dividend = BF.convert_to_function(input_dividend)
 input_divisor = BF.convert_to_function(input_divisor)
