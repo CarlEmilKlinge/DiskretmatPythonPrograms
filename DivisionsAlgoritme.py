@@ -100,6 +100,11 @@ def divisions_algoritme(dividend, divisor):
 
     # Advanced LaTeX
 
+    print("Husk at tilføj denne newcommand hvis ikke allerede gjort: ")
+    print("\\newcommand\\ldiv[3]{")
+    print("\\underline{\\smash{#1}\\hspace{.1em}}\\hspace{-.135em}\\raise.22ex\\hbox{\\textbf{\\(|\\)}} \\ \\  #2 \\ \\  \\raise.22ex\\hbox{\\(|\\)} \\hspace{-.135em}\\underline{\\smash{\\hspace{.1em} #3}}}")
+    print()
+    print()
     align_at_length = 100
     print(f"\\begin{{alignat*}}{{{align_at_length}}}")
     first_line = f"\\ldiv{{{BF.convert_to_readable_function(divisor, True)}}}"
@@ -118,7 +123,10 @@ def divisions_algoritme(dividend, divisor):
         print(f"{add_and_signs(subtractor, higest_power)} \\\\")
         start_of_cmid = end_of_cmid-1 - subtractor[0][2]*3
         print(f"\\cmidrule{{{start_of_cmid}-{end_of_cmid}}}")
-        print(f"{add_and_signs(remainder, higest_power)} \\\\")
+        remainder_line = f"{add_and_signs(remainder, higest_power)}"
+        if remainder != list_of_remainders[-1]:
+            remainder_line += " \\\\"
+        print(remainder_line)
     print("\\end{alignat*}")
 
 
@@ -149,8 +157,8 @@ def add_and_signs(function, higest_power):
         for char, i in zip(readable_part, range(len(readable_part))):
             if part[1] == "":
                 if char in numbers:
-                    readable_part = BF.insert_into_string(readable_part, "&&", i)
-                    and_signs_printed += 2
+                    readable_part = BF.insert_into_string(readable_part, "&"*(3-and_signs_printed), i)
+                    and_signs_printed = 3
                     break
             else:
                 if char == part[1] and part[1] != "":
