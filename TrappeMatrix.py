@@ -65,12 +65,16 @@ def reduced_ref(A):
         one_found = False
         for row_index in range(A_height):
             reversed_row_index = A_height-row_index-1
-            if A[reversed_row_index, column_index] == 1:
+            print()
+            print(reversed_row_index, column_index)
+            if A[reversed_row_index, column_index] == 1 and not one_found:
                 one_found = True
                 one_index = reversed_row_index
+                print(f"one_index: {one_index}")
                 continue
             if not one_found:
                 continue
+            print(f"{A[reversed_row_index]} - {A[reversed_row_index, column_index]*A[one_index]} = {A[reversed_row_index] - A[reversed_row_index, column_index]*A[one_index]}")
             A[reversed_row_index] -= A[reversed_row_index, column_index]*A[one_index]
             
     return A
@@ -80,9 +84,7 @@ def reduced_ref(A):
 
 A = np.array(
     [
-        [1, 3, 4, 1],
-        [0, 4, -4, 0],
-        [-2, 0, -9, -1]
+        [-1, 1, -1, -1],
     ], 
     dtype=float)
 
