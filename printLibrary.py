@@ -1,4 +1,5 @@
 import math
+import numpy as np
 def printTableInPython(VarNames, Variables):
     print()
     Lengths = _returnMaxLengths(VarNames, Variables)
@@ -69,3 +70,31 @@ def printTableInLaTeX(VarNames, Variables):
         print("\\hline")
     print("\\end{tabular}")
     print()
+
+def printMatrix(matrix, return_only = False):
+    width, height = matrix.shape
+
+    LaTeX_matrix = ""
+
+    if not return_only:
+        print(f"\\left[\\begin{{array}}{{{"c" * width}}}")
+    LaTeX_matrix += f"\\left[\\begin{{array}}{{{"c" * width}}}"
+
+    for row_index in range(width):
+        line = ""
+        for column_index in range(height):
+            line += str(matrix[row_index, column_index])
+            if column_index != width - 1:
+                line += " & "
+                continue
+            
+            if row_index != height - 1:
+                line += " \\\\"
+            if not return_only:
+                print(line)
+            LaTeX_matrix += "\n" + line
+    if not return_only:
+        print("\\end{array}\\right]")
+    LaTeX_matrix += "\n\\end{array}\\right]"
+
+    return LaTeX_matrix
