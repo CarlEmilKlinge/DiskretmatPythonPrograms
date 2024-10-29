@@ -109,3 +109,4 @@ def try_parse_int_or_float(input):
         except:
             return None
     return output
+

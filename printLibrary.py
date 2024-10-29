@@ -1,5 +1,6 @@
 import math
 import numpy as np
+import BasicFunctions as BF
 def printTableInPython(VarNames, Variables):
     print()
     Lengths = _returnMaxLengths(VarNames, Variables)
@@ -72,18 +73,17 @@ def printTableInLaTeX(VarNames, Variables):
     print()
 
 def printMatrix(matrix, return_only = False):
-    width, height = matrix.shape
-
+    height, width = matrix.shape
     LaTeX_matrix = ""
 
     if not return_only:
         print(f"\\left[\\begin{{array}}{{{"c" * width}}}")
     LaTeX_matrix += f"\\left[\\begin{{array}}{{{"c" * width}}}"
 
-    for row_index in range(width):
+    for row_index in range(height):
         line = ""
-        for column_index in range(height):
-            line += str(matrix[row_index, column_index])
+        for column_index in range(width):
+            line += str(BF.try_parse_int_or_float(matrix[row_index, column_index]))
             if column_index != width - 1:
                 line += " & "
                 continue
