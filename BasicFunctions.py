@@ -246,6 +246,9 @@ def convert_np_array_to_fraction(array):
         ]
     )
     for i in range(1, len(array[0])):
+        if type(array[0][i]) == Fraction:
+            output = np.column_stack((output, Fraction(*array[0][i].return_fraction())))
+            continue
         output = np.column_stack((output, Fraction(*convert_to_fraction(array[0][i]).return_fraction())))
 
     for i in range(1, len(array)):
@@ -255,6 +258,10 @@ def convert_np_array_to_fraction(array):
             ]
         )
         for j in range(1, len(array[i])):
+            if type(array[i][j]) == Fraction:
+                part = np.column_stack((part, Fraction(*array[i][j].return_fraction())))
+                continue
+
             part = np.column_stack((part, Fraction(*convert_to_fraction(array[i][j]).return_fraction())))
         output = np.concatenate((output, part))
     return output

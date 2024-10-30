@@ -197,19 +197,17 @@ A = np.array(
         [2, 2, 2, 0],
         [1, 5, 3, 0],
         [1, -3, -1, 0]
-    ], 
-    dtype=float)
+    ])
 
 B = np.array(
     [
-        [0, 4, -4, 0],
+        [0, Fraction(3,2), -4, 0],
         [1, 3, 4, 1],
         [-2, 0, -9, -1]
-    ], 
-    dtype=float)
+    ])
 
 print("Copy")
 print()
-reduced_ref(A)
+reduced_ref(B)
 print()
 print("End copy")
