@@ -1,6 +1,7 @@
 import math
 import numpy as np
 import BasicFunctions as BF
+from BasicFunctions import Fraction
 def printTableInPython(VarNames, Variables):
     print()
     Lengths = _returnMaxLengths(VarNames, Variables)
@@ -83,7 +84,11 @@ def printMatrix(matrix, return_only = False):
     for row_index in range(height):
         line = ""
         for column_index in range(width):
-            line += str(BF.try_parse_int_or_float(matrix[row_index, column_index]))
+            current_number = matrix[row_index, column_index]
+            if type(current_number) == Fraction:
+                line += current_number.__str__()
+            else: 
+                line += str(BF.try_parse_int_or_float(matrix[row_index, column_index]))
             if column_index != width - 1:
                 line += " & "
                 continue
@@ -98,3 +103,4 @@ def printMatrix(matrix, return_only = False):
     LaTeX_matrix += "\n\\end{array}\\right]"
 
     return LaTeX_matrix
+

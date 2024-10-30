@@ -184,3 +184,5 @@ input_dividend = BF.convert_to_function(input_dividend)
 input_divisor = BF.convert_to_function(input_divisor)
 
 divisions_algoritme(input_dividend, input_divisor)
+
+
