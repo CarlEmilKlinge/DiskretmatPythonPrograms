@@ -167,9 +167,15 @@ class Fraction():
         return return_fraction
 
     def reduce(self):
+        if self.denominator < 0:
+            self.denominator = abs(self.denominator)
+            self.numerator = -self.numerator
         gcd = math.gcd(self.numerator, self.denominator)
 
+
         return_fraction = Fraction(self.numerator/gcd, self.denominator/gcd)
+
+
         return return_fraction
         
     def extend(self, number):
@@ -181,6 +187,8 @@ class Fraction():
     
     def __str__(self):
         if self.denominator == 1:
+            return f"{self.numerator}"
+        if self.numerator == 0:
             return f"{self.numerator}"
         return f"{self.numerator}/{self.denominator}"
     

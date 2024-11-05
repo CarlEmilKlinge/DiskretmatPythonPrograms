@@ -73,13 +73,19 @@ def printTableInLaTeX(VarNames, Variables):
     print("\\end{tabular}")
     print()
 
-def printMatrix(matrix, return_only = False):
+def printMatrix(matrix, return_only = False, result_matrix_line = False):
     height, width = matrix.shape
     LaTeX_matrix = ""
-
     if not return_only:
-        print(f"\\left[\\begin{{array}}{{{"c" * width}}}")
-    LaTeX_matrix += f"\\left[\\begin{{array}}{{{"c" * width}}}"
+        if result_matrix_line:
+            print(f"\\left[\\begin{{array}}{{{"c" * (width -1)}|c}}")
+        else:
+            print(f"\\left[\\begin{{array}}{{{"c" * width}}}")
+
+    if result_matrix_line:
+        LaTeX_matrix += f"\\left[\\begin{{array}}{{{"c" * (width - 1)}|c}}"
+    else:
+        LaTeX_matrix += f"\\left[\\begin{{array}}{{{"c" * width}}}"
 
     for row_index in range(height):
         line = ""

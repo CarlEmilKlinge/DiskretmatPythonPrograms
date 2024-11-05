@@ -1,7 +1,7 @@
 import numpy as np
 import printLibrary as PL
 from BasicFunctions import Fraction, convert_np_array_to_fraction
-def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(()), TeX = False):
+def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(()), TeX = False, result_matrix_line = False):
 
     if first_run:
         A = convert_np_array_to_fraction(A)
@@ -29,12 +29,12 @@ def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(
 
         if first_nonzero != 1:
             new_A = A / first_nonzero
-            step = PL.printMatrix(try_concatenate(set_matrix, A), True)
+            step = PL.printMatrix(try_concatenate(set_matrix, A), True, result_matrix_line)
             step += "\n\\begin{array}{c}"
             step += "\n\\longrightarrow \\\\"
             step += f"\nR_{{{total_matrix_shape[0]}}}\\leftarrow R_{{{total_matrix_shape[0]}}}/{first_nonzero.return_latex_str()}"
             step += "\n\\end{array}"
-            step += "\n" + PL.printMatrix(try_concatenate(set_matrix, new_A), True)
+            step += "\n" + PL.printMatrix(try_concatenate(set_matrix, new_A), True, result_matrix_line)
             if TeX:
                 print(f"$$\n{step}\n$$")
             else:
@@ -68,12 +68,12 @@ def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(
 
     
     if first_nonzero_position["row"] != 0:
-        step = PL.printMatrix(try_concatenate(set_matrix, A), True)
+        step = PL.printMatrix(try_concatenate(set_matrix, A), True, result_matrix_line)
         step += "\n\\begin{array}{c}"
         step += "\n\\longrightarrow \\\\"
         step += f"\n R_{{1}} \\leftrightarrow R_{{{first_nonzero_position["row"] + 1}}}"
         step += "\n\\end{array}"
-        step += "\n" + PL.printMatrix(try_concatenate(set_matrix, B), True)
+        step += "\n" + PL.printMatrix(try_concatenate(set_matrix, B), True, result_matrix_line)
         if TeX:
             print(f"$$\n{step}\n$$")
         else:
@@ -86,12 +86,12 @@ def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(
 
 
     if b != 1:
-        step = PL.printMatrix(try_concatenate(set_matrix, old_B), True)
+        step = PL.printMatrix(try_concatenate(set_matrix, old_B), True, result_matrix_line)
         step += "\n\\begin{array}{c}"
         step += "\n\\longrightarrow \\\\"
         step += f"\nR_{{{total_matrix_shape[0]-A_height+1}}}\\leftarrow R_{{{total_matrix_shape[0]-A_height+1}}}/{b.return_latex_str()}"
         step += "\n\\end{array}"
-        step += "\n" + PL.printMatrix(try_concatenate(set_matrix, B), True)
+        step += "\n" + PL.printMatrix(try_concatenate(set_matrix, B), True, result_matrix_line)
         if TeX:
             print(f"$$\n{step}\n$$")
         else:
@@ -101,7 +101,7 @@ def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(
     first_row = B[0]
     old_B = B.copy()
     non_zero_b_found = False
-    step = PL.printMatrix(try_concatenate(set_matrix, old_B), True)
+    step = PL.printMatrix(try_concatenate(set_matrix, old_B), True, result_matrix_line)
     step += "\n\\begin{array}{c}"
     step += "\n\\longrightarrow"
     for row in range(1, A_height): #Skips first row
@@ -124,7 +124,7 @@ def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(
 
     if non_zero_b_found:
         step += "\n\\end{array}"
-        step += "\n" + PL.printMatrix(try_concatenate(set_matrix, B), True)
+        step += "\n" + PL.printMatrix(try_concatenate(set_matrix, B), True, result_matrix_line)
         if TeX: 
             print(f"$$\n{step}\n$$")
         else:
@@ -133,13 +133,13 @@ def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(
     set_matrix = try_concatenate(set_matrix, np.array([first_row]))
 
     C = B[1:]
-    C = ref(C, total_matrix_shape, False, set_matrix) 
+    C = ref(C, total_matrix_shape=total_matrix_shape, first_run=False, set_matrix=set_matrix, TeX=True) 
     
     return np.vstack([first_row, C]) 
 
-def reduced_ref(A, TeX = False):
+def reduced_ref(A, TeX = False, result_matrix_line = False):
     
-    A = ref(A, TeX = TeX)
+    A = ref(A, TeX = TeX, result_matrix_line=result_matrix_line)
     print("Over er den på trappeform")
     print()
     A_height, A_width = A.shape
@@ -147,7 +147,7 @@ def reduced_ref(A, TeX = False):
     for column_index in range(A_width):
         one_found = False
         old_A = A.copy()
-        step = PL.printMatrix(old_A, True)
+        step = PL.printMatrix(old_A, True, result_matrix_line)
         step += "\n\\begin{array}{c}"
         step += "\n\\longrightarrow"
 
@@ -175,7 +175,7 @@ def reduced_ref(A, TeX = False):
                     step += f"\\\\ \nR_{{{reversed_row_index + 1}}} \\leftarrow R_{{{reversed_row_index + 1}}} {fortegn}{current_to_be_removed.abs().return_latex_str()}R_{{{one_index + 1}}}"
         if column_changed:
             step += "\n\\end{array}"
-            step += "\n" + PL.printMatrix(A, True)
+            step += "\n" + PL.printMatrix(A, True, result_matrix_line)
             if TeX:
                 print(f"$$\n{step}\n$$")
             else:
@@ -193,21 +193,14 @@ def try_concatenate(matrix1, matrix2):
 
 A = np.array(
     [
-        [3, -1, 1, 0],
-        [2, 2, 2, 0],
-        [1, 5, 3, 0],
-        [1, -3, -1, 0]
-    ])
-
-B = np.array(
-    [
-        [0, Fraction(3,2), -4, 0],
-        [1, 3, 4, 1],
-        [-2, 0, -9, -1]
+        [1, 0, 1, 0, 1],
+        [-1, 1, -2, 1, -2],
+        [2, 1, 2, -1, 2],
+        [1, 3, -1, 3, -3],
     ])
 
 print("Copy")
 print()
-reduced_ref(B)
+reduced_ref(A, TeX=True, result_matrix_line=True)
 print()
 print("End copy")
