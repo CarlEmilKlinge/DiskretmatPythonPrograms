@@ -1,6 +1,7 @@
 import numpy as np
 import printLibrary as PL
 from BasicFunctions import Fraction, convert_np_array_to_fraction
+import cmath
 def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(()), TeX = False):
 
     if first_run:
@@ -120,7 +121,7 @@ def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(
         if b == 1 or b == -1:
             step += f"\\\\ \nR_{{{row + total_matrix_shape[0] - A_height + 1}}}\\leftarrow R_{{{row + total_matrix_shape[0] - A_height + 1}}} {fortegn} R_{{{total_matrix_shape[0]-A_height+1}}}"
         else:
-            step += f"\\\\ \nR_{{{row + total_matrix_shape[0] - A_height + 1}}}\\leftarrow R_{{{row + total_matrix_shape[0] - A_height + 1}}} {fortegn} {b.abs()}R_{{{total_matrix_shape[0]-A_height+1}}}"
+            step += f"\\\\ \nR_{{{row + total_matrix_shape[0] - A_height + 1}}}\\leftarrow R_{{{row + total_matrix_shape[0] - A_height + 1}}} {fortegn} {b.abs().return_latex_str()}R_{{{total_matrix_shape[0]-A_height+1}}}"
 
     if non_zero_b_found:
         step += "\n\\end{array}"
@@ -193,21 +194,15 @@ def try_concatenate(matrix1, matrix2):
 
 A = np.array(
     [
-        [3, -1, 1, 0],
-        [2, 2, 2, 0],
-        [1, 5, 3, 0],
-        [1, -3, -1, 0]
+        [3, -1, 1],
+        [2, 2, 2],
+        [1, 5, 3],
+        [1, -3, -1]
     ])
 
-B = np.array(
-    [
-        [0, Fraction(3,2), -4, 0],
-        [1, 3, 4, 1],
-        [-2, 0, -9, -1]
-    ])
 
 print("Copy")
 print()
-reduced_ref(B)
+reduced_ref(A)
 print()
 print("End copy")

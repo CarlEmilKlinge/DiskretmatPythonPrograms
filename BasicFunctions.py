@@ -118,9 +118,14 @@ def try_parse_int_or_float(input):
 
 class Fraction():
     def __init__(self, numerator, denominator):
-        self.numerator = int(numerator)
-        self.denominator = int(denominator)
-
+        if type(numerator) != complex:
+            self.numerator = int(numerator)
+        else:
+            self.numerator = numerator
+        if type(denominator) != complex:
+            self.denominator = int(denominator)
+        else:
+            self.denominator = denominator
 
     def __add__(self, number, reduce = True):
        
@@ -167,6 +172,7 @@ class Fraction():
         return return_fraction
 
     def reduce(self):
+        # if type(self.numerator)
         gcd = math.gcd(self.numerator, self.denominator)
 
         return_fraction = Fraction(self.numerator/gcd, self.denominator/gcd)
