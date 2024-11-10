@@ -8,7 +8,7 @@ import printLibrary as PL
 # Kig i bunden for at ændre settings eller inputmetode eller andet
 
 
-def main(Extended = True, PrintInPython = True, PrintForLaTeX = True, FirstNumber = 0, SecondNumber = 0):
+def euclidean_algorithm(Extended = True, PrintInPython = True, PrintForLaTeX = True, FirstNumber = 0, SecondNumber = 0):
     i = [0]
     currenti = 0
 
@@ -79,4 +79,4 @@ while True:
     num1 = int(input("First number: "))
     num2 = int(input("Second number: "))
 
-    main(FirstNumber=num1, SecondNumber=num2, PrintForLaTeX=False)
+    euclidean_algorithm(FirstNumber=num1, SecondNumber=num2, PrintForLaTeX=False)

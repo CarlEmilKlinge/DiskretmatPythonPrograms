@@ -175,14 +175,5 @@ def add_and_signs(function, higest_power):
 
         new_function+=f"{readable_part} "
     return new_function
-input_dividend = input("Input dividend:\n")
-input_divisor = input("Input: divisor:\n")
-# input_dividend = "Z^5-3Z^4+Z^3+4"
-# input_divisor = "Z^2-3Z+2"
-
-input_dividend = BF.convert_to_function(input_dividend)
-input_divisor = BF.convert_to_function(input_divisor)
-
-divisions_algoritme(input_dividend, input_divisor)
 
 

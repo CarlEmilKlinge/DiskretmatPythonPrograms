@@ -222,7 +222,3 @@ def back_substitution(a_values, mod_values):
             print(step)
         print("\\end{align*}")
         print()
-
-aValues = [2,3,4,5]
-modValues = [2,3,5,7]
-chinese_remainder(aValues, modValues)

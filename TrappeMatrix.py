@@ -1,7 +1,10 @@
 import numpy as np
 import printLibrary as PL
 from BasicFunctions import Fraction, convert_np_array_to_fraction
-def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(()), TeX = False, result_matrix_line = False):
+def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(()), TeX = False, result_matrix_line = False, get_determinant = False):
+
+
+
 
     if first_run:
         A = convert_np_array_to_fraction(A)
@@ -9,6 +12,12 @@ def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(
         total_matrix_shape = A.shape
 
     A_height, A_width = A.shape
+
+    if get_determinant and first_run and A_width != A_height:
+        print("Determinanten kan kun findes for kvadratiske matriser")
+        return
+
+
 
     non_zero_count = 0
     for i in range(len(A)):
@@ -21,7 +30,7 @@ def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(
         return A
     
 
-    if A_height == 1:
+    if A_height == 1 and not get_determinant:
         for i in A[0]:
             if i != 0:
                 first_nonzero = i
@@ -82,10 +91,11 @@ def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(
     
     b = B[0, first_nonzero_position["column"]]
     old_B = B.copy()
-    B[0] = B[0] / b
+    if not get_determinant:
+        B[0] = B[0] / b
 
 
-    if b != 1:
+    if b != 1 and not get_determinant:
         step = PL.printMatrix(try_concatenate(set_matrix, old_B), True, result_matrix_line)
         step += "\n\\begin{array}{c}"
         step += "\n\\longrightarrow \\\\"
@@ -104,8 +114,10 @@ def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(
     step = PL.printMatrix(try_concatenate(set_matrix, old_B), True, result_matrix_line)
     step += "\n\\begin{array}{c}"
     step += "\n\\longrightarrow"
+    
     for row in range(1, A_height): #Skips first row
         b = B[row, first_nonzero_position["column"]]
+        b /= B[0, first_nonzero_position["column"]]
         if b == 0:
             continue
         non_zero_b_found = True
@@ -133,7 +145,7 @@ def ref(A, total_matrix_shape = (0, 0), first_run = True, set_matrix = np.array(
     set_matrix = try_concatenate(set_matrix, np.array([first_row]))
 
     C = B[1:]
-    C = ref(C, total_matrix_shape=total_matrix_shape, first_run=False, set_matrix=set_matrix, TeX=True) 
+    C = ref(C, total_matrix_shape=total_matrix_shape, first_run=False, set_matrix=set_matrix, TeX=TeX, get_determinant=get_determinant) 
     
     return np.vstack([first_row, C]) 
 
@@ -189,18 +201,3 @@ def try_concatenate(matrix1, matrix2):
         return np.concatenate((matrix1, matrix2))
     else:
         return matrix2
-
-
-A = np.array(
-    [
-        [1, 0, 1, 0, 1],
-        [-1, 1, -2, 1, -2],
-        [2, 1, 2, -1, 2],
-        [1, 3, -1, 3, -3],
-    ])
-
-print("Copy")
-print()
-reduced_ref(A, TeX=True, result_matrix_line=True)
-print()
-print("End copy")
