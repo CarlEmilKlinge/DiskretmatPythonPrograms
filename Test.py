@@ -1,15 +1,22 @@
-import sympy
+from sympy import *
 
 
-sympy.det
-Test = True
+A = Matrix([
+    [1, 2, 0],
+    [2, 0, 0],
+    [0, 1, 1]
+])
 
-for i in range(3):
-    if Test == True:
-        Test = 1
-    elif Test == False:
-        Test = 0
+B = Matrix([
+    [3, 0, 1],
+    [2, 1, 0],
+    [1, 0, 0],
+])
 
-    Test *= -1
+C = Matrix([
+    [0, 1/2, 0],
+    [1/2, -1/4, 0],
+    [-1/2, 1/4, 1],
+])
 
-    print(Test)
+print_latex((A*B)*C)

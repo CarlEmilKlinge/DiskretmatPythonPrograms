@@ -11,16 +11,20 @@ import numpy as np
 
 A = np.array(
     [
-        [3, 3, 2],
-        [3, 0, -2],
-        [2, -1, -3],
+        [-2, 4, 0],
+        [1, 1, 3]
     ])
 
 print("Copy")
 print()
-ref(A, TeX=True, get_determinant=True)
+# reduced_ref(A, TeX=True, result_matrix_line=True)
+A = [2, 3, 5]
+M = [3, 5, 7]
+chinese_remainder(A, M)
+
 print()
 print("End copy")
+
 
 
 
